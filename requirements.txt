@@ -1,4 +1,4 @@
 pandas
-pickle
+pickle-mixin
 scikit-learn
 imblearn
