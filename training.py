@@ -25,7 +25,7 @@ print(data.describe().T)
 # data = data.sample(500)
 # ----
 
-selected_features = ['ContractRenewal', 'CustServCalls', 'DayMins', 'MonthlyCharge']
+selected_features = ['ContractRenewal', 'CustServCalls', 'DayMins', 'DataUsage']
 X = data.copy()[selected_features]
 
 y = data.copy()['Churn']
@@ -41,19 +41,18 @@ X_test = pd.DataFrame(sc_x.transform(X_test), columns=X_test.columns)
 
 clfs = [
     SVC(kernel='linear'),
-    DecisionTreeClassifier(),
+    KNeighborsClassifier(),
     RandomForestClassifier(),
-    AdaBoostClassifier(),
     GradientBoostingClassifier(),
     LogisticRegression()
 ]
 
-# for clf in clfs:
-#     print(f"** {clf.__class__.__name__} **")
-# rfe = RFECV(clf)
-# rfe.fit(X_train, y_train)
-# print(rfe.get_feature_names_out())
-#
+for clf in clfs:
+    print(f"** {clf.__class__.__name__} **")
+    clf.fit(X_train, y_train)
+    y_pred = clf.predict(X_test)
+    print(classification_report(y_test, y_pred), "\n")
+
 # X_train_RFE = rfe.transform(X_train)
 # X_test_RFE = rfe.transform(X_test)
 # clf.fit(X_train, y_train)
@@ -98,13 +97,14 @@ clfs = [
 #     y_pred = clf.predict(X_test)
 #     print(classification_report(y_test, y_pred), "\n")
 
-# clf = RandomForestClassifier()
-# clf.fit(X_train, y_train)
-# y_pred = clf.predict(X_test)
-# print(classification_report(y_test, y_pred), "\n")
-#
-# with open("binaries/model", "wb") as model_bin:
-#     pkl.dump(clf, model_bin)
-#
-# with open("binaries/sc_x", "wb") as sc_bin:
-#     pkl.dump(sc_x, sc_bin)
+clf = RandomForestClassifier()
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+print(f"** Chosen Classifier was {clf.__class__.__name__} **")
+print(classification_report(y_test, y_pred), "\n")
+
+with open("binaries/model", "wb") as model_bin:
+    pkl.dump(clf, model_bin)
+
+with open("binaries/sc_x", "wb") as sc_bin:
+    pkl.dump(sc_x, sc_bin)

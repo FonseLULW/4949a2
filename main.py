@@ -21,12 +21,12 @@ with header:
                 "whether a customer decides to leave or stay with the company given some information.")
 
 
-def on_submit(day_mins, monthly_charge, cust_serv_calls, contract_renewal):
+def on_submit(day_mins, data_usage, cust_serv_calls, contract_renewal):
     customer_data = {
         "ContractRenewal": [contract_renewal],
         "CustServCalls": [cust_serv_calls],
         "DayMins": [day_mins],
-        "MonthlyCharge": [monthly_charge]
+        "DataUsage": [data_usage]
     }
     customer_data = pd.DataFrame(customer_data)
     print(customer_data)
@@ -47,9 +47,9 @@ with form_container:
         sel_col, disp_col = st.columns(2)
         dm = sel_col.number_input("Average Daytime Minutes", key="DayMins", min_value=0.0, max_value=350.80,
                                   help="Average daytime minutes charged to the customer on a daily basis.")
-        mc = sel_col.number_input("Average Monthly Bill ($)", key="MonthlyCharge", min_value=14.0,
-                                  max_value=111.30,
-                                  help="Customer's average monthly bill.")
+        du = sel_col.number_input("Average Data Usage (GB)", key="DataUsage", min_value=0.0,
+                                  max_value=5.40,
+                                  help="Customer's average data usage in gigabytes.")
 
         csc = sel_col.slider("Calls to Customer Service", key="CustServCalls", min_value=0, max_value=9,
                              help="Number of times the customer contacted Customer Service")
@@ -58,7 +58,7 @@ with form_container:
         disp_col.image('image2.jpg')
         done = disp_col.form_submit_button("Get Prediction!", use_container_width=True)
         if done:
-            output_value = on_submit(day_mins=dm, monthly_charge=mc, cust_serv_calls=csc, contract_renewal=cr)
+            output_value = on_submit(day_mins=dm, data_usage=du, cust_serv_calls=csc, contract_renewal=cr)
 
 
 with evaluation:
