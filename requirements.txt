@@ -1,2 +1,4 @@
 pandas
 pickle
+scikit-learn
+imblearn
