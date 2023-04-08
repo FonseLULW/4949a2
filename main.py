@@ -1,5 +1,4 @@
 import streamlit as st
-import seaborn as sns
 import pandas as pd
 import pickle as pkl
 
@@ -12,7 +11,6 @@ evaluation = st.container()
 output_value = None
 
 data = pd.read_csv("data/telecom_churn.csv")
-sns.set_theme(style="darkgrid")
 
 with header:
     st.image('Customer-Churn.png')
@@ -74,4 +72,3 @@ with evaluation:
     else:
         img.image('smile.png', width=150)
         txt.markdown("**No, The customer will likely stay using your services!**")
-
