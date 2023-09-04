@@ -1,4 +1,4 @@
-pandas
+pandas==1.4.2
 pickle-mixin
 scikit-learn==1.1.2
-imblearn
+imblearn==0.0
